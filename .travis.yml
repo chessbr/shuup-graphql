@@ -3,6 +3,10 @@ python:
   - "2.7"
   - "3.4"
   - "3.5"
+cache:
+  directories:
+    - "$HOME/.cache/pip"
+    - "$HOME/.cache/shuup/build_resources"
 install:
   - pip install -U pip
   - pip install isort flake8 coveralls
