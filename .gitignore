@@ -5,3 +5,4 @@ venv/
 .env/
 env/
 .pytest_cache/
+shuup_graphql_tests/var/
