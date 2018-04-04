@@ -23,6 +23,11 @@ INSTALLED_APPS = [
     # ...
     'graphene_django',
     'shuup_graphql'
+
+    # These are the supported basket models
+    SHUUP_BASKET_CLASS_SPEC="shuup.core.basket.objects:Basket"
+    SHUUP_BASKET_ORDER_CREATOR_SPEC="shuup.core.basket.order_creator:BasketOrderCreator"
+    SHUUP_BASKET_STORAGE_CLASS_SPEC="shuup.core.basket.storage:DatabaseBasketStorage"
 ]
 ```
 
