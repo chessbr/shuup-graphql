@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import graphene
 
+from ._basket import BasketMutations
 
-class FrontMutation(graphene.ObjectType):
+
+class FrontMutation(BasketMutations,
+                    graphene.ObjectType):
     pass
 
 

@@ -1,16 +1,9 @@
 # -*- coding: utf-8 -*-
 import graphene
-from graphene_django import DjangoObjectType
 from shuup.core.models import Category, get_person_contact
 from shuup.core.shop_provider import get_shop
 
-
-class CategoryType(DjangoObjectType):
-    id = graphene.Int()
-    name = graphene.String()
-
-    class Meta:
-        model = Category
+from shuup_graphql.front.types.category import CategoryType
 
 
 class CategoryQuery(object):
