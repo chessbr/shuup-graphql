@@ -15,16 +15,15 @@ except ImportError:
 
 DEFAULTS = {
     # Schema used for Front endpoint
-    'FRONT_SCHEMA': 'shuup_graphql.front.schema',
-
+    "FRONT_SCHEMA": "shuup_graphql.front.schema",
     # Schema used for Admin endpoint
-    'ADMIN_SCHEMA': 'shuup_graphql.admin.schema'
+    "ADMIN_SCHEMA": "shuup_graphql.admin.schema",
 }
 
 # List of settings that may be in string import notation.
 IMPORT_STRINGS = (
-    'FRONT_SCHEMA',
-    'ADMIN_SCHEMA',
+    "FRONT_SCHEMA",
+    "ADMIN_SCHEMA",
 )
 
 
@@ -48,12 +47,17 @@ def import_from_string(val, setting_name):
     """
     try:
         # Nod to tastypie's use of importlib.
-        parts = val.split('.')
-        module_path, class_name = '.'.join(parts[:-1]), parts[-1]
+        parts = val.split(".")
+        module_path, class_name = ".".join(parts[:-1]), parts[-1]
         module = importlib.import_module(module_path)
         return getattr(module, class_name)
     except (ImportError, AttributeError) as e:
-        msg = "Could not import '%s' for Shuup GraphQL setting '%s'. %s: %s." % (val, setting_name, e.__class__.__name__, e)
+        msg = "Could not import '%s' for Shuup GraphQL setting '%s'. %s: %s." % (
+            val,
+            setting_name,
+            e.__class__.__name__,
+            e,
+        )
         raise ImportError(msg)
 
 
@@ -66,8 +70,8 @@ class ShuupGraphQLSettings(object):
 
     @property
     def user_settings(self):
-        if not hasattr(self, '_user_settings'):
-            self._user_settings = getattr(settings, 'SHUUP_GRAPHQL', {})
+        if not hasattr(self, "_user_settings"):
+            self._user_settings = getattr(settings, "SHUUP_GRAPHQL", {})
         return self._user_settings
 
     def __getattr__(self, attr):
@@ -95,8 +99,8 @@ shuup_graphql_settings = ShuupGraphQLSettings(None, DEFAULTS, IMPORT_STRINGS)
 
 def reload_settings(*args, **kwargs):
     global shuup_graphql_settings
-    setting, value = kwargs['setting'], kwargs['value']
-    if setting == 'SHUUP_GRAPHQL':
+    setting, value = kwargs["setting"], kwargs["value"]
+    if setting == "SHUUP_GRAPHQL":
         shuup_graphql_settings = ShuupGraphQLSettings(value, DEFAULTS, IMPORT_STRINGS)
 
 

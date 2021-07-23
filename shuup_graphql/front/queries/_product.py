@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import graphene
 from graphene_django import DjangoObjectType
+
 from shuup.core.models import Product, ProductMediaKind
 
 from ..types.sales_unit import SalesUnitType

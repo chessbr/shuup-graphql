@@ -6,6 +6,4 @@ class AdminMutation(graphene.ObjectType):
     pass
 
 
-__all__ = [
-    "AdminMutation"
-]
+__all__ = ["AdminMutation"]

@@ -4,11 +4,11 @@ import six
 from django.db.models import Prefetch
 from django.utils.encoding import force_text
 from graphene_django import DjangoObjectType
+
 from shuup.core.models import ProductAttribute, ProductMode, ShopProduct, ShopStatus, get_person_contact
 from shuup.core.pricing._context import PricingContext
 from shuup.core.shop_provider import get_shop
 from shuup.core.utils.prices import convert_taxness
-
 from shuup_graphql.front.types.price import PricefulType
 
 from ._category import CategoryType
@@ -18,19 +18,19 @@ from ._supplier import SupplierType
 
 
 def get_shop_product_queryset():
-    return ShopProduct.objects.select_related(
+    return (
+        ShopProduct.objects.select_related(
             "shop", "product", "product__sales_unit", "product__primary_image", "product__primary_image__file"
-        ).prefetch_related(
-            "product__translations", "product__sales_unit__translations", "suppliers"
-        ).prefetch_related(
+        )
+        .prefetch_related("product__translations", "product__sales_unit__translations", "suppliers")
+        .prefetch_related(
             Prefetch(
                 "product__attributes",
-                queryset=ProductAttribute.objects.all().prefetch_related("attribute", "attribute__translations")
+                queryset=ProductAttribute.objects.all().prefetch_related("attribute", "attribute__translations"),
             )
-        ).filter(
-            shop__status=ShopStatus.ENABLED,
-            product__deleted=False
         )
+        .filter(shop__status=ShopStatus.ENABLED, product__deleted=False)
+    )
 
 
 class ShopProductType(DjangoObjectType):
@@ -67,33 +67,29 @@ class ShopProductType(DjangoObjectType):
             for combination in combinations:
                 try:
                     child_shop_product = get_shop_product_queryset().get(
-                        product_id=combination["result_product_pk"],
-                        shop=self.shop
+                        product_id=combination["result_product_pk"], shop=self.shop
                     )
-                    variations.append({
-                        "shop_product": child_shop_product,
-                        "sku_part": combination["sku_part"],
-                        "hash": combination["hash"],
-                        "combination": {
-                            force_text(k): force_text(v) for k, v in six.iteritems(combination["variable_to_value"])
+                    variations.append(
+                        {
+                            "shop_product": child_shop_product,
+                            "sku_part": combination["sku_part"],
+                            "hash": combination["hash"],
+                            "combination": {
+                                force_text(k): force_text(v) for k, v in six.iteritems(combination["variable_to_value"])
+                            },
                         }
-                    })
+                    )
                 except ShopProduct.DoesNotExist:
                     pass
         else:
             children = get_shop_product_queryset().filter(
-                shop=self.shop,
-                product__variation_parent=self.product,
-                product__mode=ProductMode.VARIATION_CHILD
+                shop=self.shop, product__variation_parent=self.product, product__mode=ProductMode.VARIATION_CHILD
             )
             for child in children:
                 try:
-                    variations.append({
-                        "shop_product": child,
-                        "sku_part": child.product.sku,
-                        "hash": None,
-                        "combination": None
-                    })
+                    variations.append(
+                        {"shop_product": child, "sku_part": child.product.sku, "hash": None, "combination": None}
+                    )
                 except ShopProduct.DoesNotExist:
                     pass
 
@@ -129,8 +125,8 @@ class ShopProductQuery(object):
                 ProductMode.NORMAL,
                 ProductMode.VARIABLE_VARIATION_PARENT,
                 ProductMode.SIMPLE_VARIATION_PARENT,
-                ProductMode.PACKAGE_PARENT
-            )
+                ProductMode.PACKAGE_PARENT,
+            ),
         )
 
         # if some shop is returned, then use it in the queryset

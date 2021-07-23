@@ -6,6 +6,4 @@ class FrontMutation(graphene.ObjectType):
     pass
 
 
-__all__ = [
-    "FrontMutation"
-]
+__all__ = ["FrontMutation"]

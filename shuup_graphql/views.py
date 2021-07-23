@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import PermissionDenied
 from graphene_django.views import GraphQLView
+
 from shuup.admin.shop_provider import get_shop
 
 
