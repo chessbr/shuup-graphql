@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from uuid import uuid4
-
 import graphene
 from django.core.exceptions import ValidationError
 from graphql import GraphQLError
+from uuid import uuid4
+
 from shuup.core.basket import get_basket_command_dispatcher
 from shuup.core.models import AnonymousContact, Contact, get_company_contact, get_person_contact
 from shuup.utils.importing import cached_load
-
 from shuup_graphql.front.types.basket import BasketType
 
 
@@ -23,12 +22,11 @@ def _handle_cmd(request, command, kwargs):
 
 
 def handle_set_basket_customer(request, basket, customer, orderer=None):
-    _handle_cmd(request, "set_customer", {
-        "request": request,
-        "basket": basket,
-        "customer": customer or AnonymousContact(),
-        "orderer": orderer
-    })
+    _handle_cmd(
+        request,
+        "set_customer",
+        {"request": request, "basket": basket, "customer": customer or AnonymousContact(), "orderer": orderer},
+    )
 
 
 class CreateBasketMutation(graphene.Mutation):

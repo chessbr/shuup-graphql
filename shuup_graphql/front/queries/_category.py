@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import graphene
+
 from shuup.core.models import Category, get_person_contact
 from shuup.core.shop_provider import get_shop
-
 from shuup_graphql.front.types.category import CategoryType
 
 

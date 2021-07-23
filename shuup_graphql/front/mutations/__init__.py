@@ -4,8 +4,7 @@ import graphene
 from ._basket import BasketMutations
 
 
-class FrontMutation(BasketMutations,
-                    graphene.ObjectType):
+class FrontMutation(BasketMutations, graphene.ObjectType):
     pass
 
 

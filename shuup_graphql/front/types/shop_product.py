@@ -3,10 +3,10 @@ import graphene
 import six
 from django.utils.encoding import force_text
 from graphene_django import DjangoObjectType
+
 from shuup.core.models import ProductMode, ShopProduct, get_person_contact
 from shuup.core.pricing._context import PricingContext
 from shuup.core.utils.prices import convert_taxness
-
 from shuup_graphql.front.utils.shop_product import get_shop_product_queryset
 
 from .category import CategoryType
@@ -50,33 +50,29 @@ class ShopProductType(DjangoObjectType):
             for combination in combinations:
                 try:
                     child_shop_product = get_shop_product_queryset().get(
-                        product_id=combination["result_product_pk"],
-                        shop=self.shop
+                        product_id=combination["result_product_pk"], shop=self.shop
                     )
-                    variations.append({
-                        "shop_product": child_shop_product,
-                        "sku_part": combination["sku_part"],
-                        "hash": combination["hash"],
-                        "combination": {
-                            force_text(k): force_text(v) for k, v in six.iteritems(combination["variable_to_value"])
+                    variations.append(
+                        {
+                            "shop_product": child_shop_product,
+                            "sku_part": combination["sku_part"],
+                            "hash": combination["hash"],
+                            "combination": {
+                                force_text(k): force_text(v) for k, v in six.iteritems(combination["variable_to_value"])
+                            },
                         }
-                    })
+                    )
                 except ShopProduct.DoesNotExist:
                     pass
         else:
             children = get_shop_product_queryset().filter(
-                shop=self.shop,
-                product__variation_parent=self.product,
-                product__mode=ProductMode.VARIATION_CHILD
+                shop=self.shop, product__variation_parent=self.product, product__mode=ProductMode.VARIATION_CHILD
             )
             for child in children:
                 try:
-                    variations.append({
-                        "shop_product": child,
-                        "sku_part": child.product.sku,
-                        "hash": None,
-                        "combination": None
-                    })
+                    variations.append(
+                        {"shop_product": child, "sku_part": child.product.sku, "hash": None, "combination": None}
+                    )
                 except ShopProduct.DoesNotExist:
                     pass
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import graphene
+
 from shuup.core.models import Manufacturer
 from shuup.core.shop_provider import get_shop
-
 from shuup_graphql.front.types.manufacturer import ManufacturerType
 
 
