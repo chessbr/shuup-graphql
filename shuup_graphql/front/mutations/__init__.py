@@ -2,9 +2,10 @@
 import graphene
 
 from ._basket import BasketMutations
+from ._category import CategoryMutations
 
 
-class FrontMutation(BasketMutations, graphene.ObjectType):
+class FrontMutation(BasketMutations, CategoryMutations, graphene.ObjectType):
     pass
 
 
