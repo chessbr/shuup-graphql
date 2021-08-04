@@ -1,11 +1,9 @@
-from tempfile import NamedTemporaryFile
-from urllib.request import urlopen
-
 import graphene
+
 from shuup.core.models import Category, CategoryStatus
 from shuup_graphql.front.types.category import CategoryType
 
-from ..utils.filer import filer_image_from_file_path
+from ..utils.filer import filer_image_from_url
 
 
 class CreateCategoryMutation(graphene.Mutation):
@@ -25,12 +23,8 @@ class CreateCategoryMutation(graphene.Mutation):
         # request = info.context
         category = Category.objects.create(name=name, description=description, status=CategoryStatus.VISIBLE)
         if image_url:
-            img_temp = NamedTemporaryFile(delete=True)
-            img_temp.write(urlopen(image_url).read())
-            img_temp.flush()
-            image_file_path = img_temp.name
             path = "ProductCategories/Samples/%s" % business_segment.capitalize()
-            filer_image = filer_image_from_file_path(image_file_path, path)
+            filer_image = filer_image_from_url(image_url, path)
             category.image = filer_image
         if parent_category:
             category.parent = parent_category
