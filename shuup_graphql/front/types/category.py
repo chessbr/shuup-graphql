@@ -2,13 +2,12 @@
 import graphene
 from graphene_django import DjangoObjectType
 
-from shuup.core.models import SalesUnit
+from shuup.core.models import Category
 
 
-class SalesUnitType(DjangoObjectType):
+class CategoryType(DjangoObjectType):
     id = graphene.Int()
-    symbol = graphene.String()
     name = graphene.String()
 
     class Meta:
-        model = SalesUnit
+        model = Category

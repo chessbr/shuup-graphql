@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from decimal import Decimal
-
 import graphene
+from decimal import Decimal
 
 
 class PricefulType(graphene.ObjectType):

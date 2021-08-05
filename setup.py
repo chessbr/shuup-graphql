@@ -7,10 +7,10 @@ requirements = [
 
 setup(
     name="shuup_graphql",
-    version="0.1",
-    author="Christian Hess",
-    author_email="christian@shuup.com",
-    url="https://github.com/chessbr/shuup-graphql",
+    version="0.1.1",
+    author="John Yoost",
+    author_email="jyoost@gmail.com",
+    url="https://github.com/jyoost/shuup-graphql",
     description=("A Shuup GraphQL API implementation."),
     license="Apache 2.0",
     install_requires=requirements,

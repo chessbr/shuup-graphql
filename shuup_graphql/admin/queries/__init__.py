@@ -8,6 +8,4 @@ class AdminQuery(AdminUsersQuery, graphene.ObjectType):
     pass
 
 
-__all__ = [
-    "AdminQuery"
-]
+__all__ = ["AdminQuery"]

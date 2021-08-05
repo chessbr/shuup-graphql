@@ -4,9 +4,9 @@ from graphene_django import DjangoObjectType
 
 from shuup.core.models import Product, ProductMediaKind
 
-from ..types.sales_unit import SalesUnitType
-from ._manufacturer import ManufacturerType
-from ._product_media import ProductMediaType
+from .manufacturer import ManufacturerType
+from .product_media import ProductMediaType
+from .sales_unit import SalesUnitType
 
 
 class ProductType(DjangoObjectType):
